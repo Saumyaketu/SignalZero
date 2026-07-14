@@ -21,11 +21,13 @@ class NetworkService {
     };
 
     this.nodes.set(socketId, node);
+    this.buildTopology();
     return node;
   }
 
   removeNode(socketId) {
     this.nodes.delete(socketId);
+    this.buildTopology();
   }
 
   getNode(socketId) {
@@ -34,6 +36,23 @@ class NetworkService {
 
   getAllNodes() {
     return [...this.nodes.values()];
+  }
+
+  buildTopology() {
+    const nodes = [...this.nodes.values()];
+
+    nodes.forEach((node) => {
+      node.neighbors = [];
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      if (i > 0) {
+        nodes[i].neighbors.push(nodes[i - 1].nodeId);
+      }
+      if (i < nodes.length - 1) {
+        nodes[i].neighbors.push(nodes[i + 1].nodeId);
+      }
+    }
   }
 
   updateLastSeen(socketId) {

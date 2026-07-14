@@ -3,6 +3,7 @@ import networkService from "../services/network.service.js";
 export const getNetwork = (req, res) => {
   res.json({
     success: true,
+    totalNodes: networkService.getAllNodes().length,
     nodes: networkService.getAllNodes(),
   });
 };
