@@ -2,7 +2,7 @@ import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
 import FooterStats from "../components/layout/FooterStats";
 import NetworkPanel from "../components/layout/NetworkPanel";
-import ActivityPanel from "../components/layout/ActivityPanel";
+import ChatPanel from "../features/chat/components/ChatPanel";
 
 function DashboardLayout() {
   return (
@@ -19,7 +19,7 @@ function DashboardLayout() {
             <div className="grid grid-cols-[300px_1fr] gap-6">
               <FooterStats />
 
-              <ActivityPanel />
+              <ChatPanel />
             </div>
           </div>
         </div>
