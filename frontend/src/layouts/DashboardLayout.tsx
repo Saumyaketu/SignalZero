@@ -1,15 +1,28 @@
 import Sidebar from "../components/layout/Sidebar";
+import Topbar from "../components/layout/Topbar";
+import FooterStats from "../components/layout/FooterStats";
 import NetworkPanel from "../components/layout/NetworkPanel";
 import ActivityPanel from "../components/layout/ActivityPanel";
 
 function DashboardLayout() {
   return (
-    <div className="h-screen bg-zinc-950 text-white flex overflow-hidden">
-      <Sidebar />
+    <div className="h-screen bg-zinc-950 text-white flex flex-col">
+      <Topbar />
 
-      <main className="flex-1 grid grid-cols-[1fr_340px] gap-6 p-6">
-        <NetworkPanel />
-        <ActivityPanel />
+      <main className="flex-1 p-6 overflow-hidden">
+        <div className="grid h-full grid-cols-[260px_1fr] gap-6">
+          <Sidebar />
+
+          <div className="grid grid-rows-[1fr_180px] gap-6">
+            <NetworkPanel />
+
+            <div className="grid grid-cols-[300px_1fr] gap-6">
+              <FooterStats />
+
+              <ActivityPanel />
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );

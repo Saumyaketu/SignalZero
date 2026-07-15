@@ -1,14 +1,18 @@
+import Panel from "../ui/Panel";
+
 function NetworkPanel() {
   return (
-    <div className="flex-1 bg-zinc-900 border-r border-zinc-800 flex flex-col">
-      <div className="p-5 border-b border-zinc-800">
-        <h2 className="text-xl font-semibold">Mesh Network</h2>
-      </div>
+    <Panel title="Mesh Network" className="h-full">
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-zinc-500 text-lg">Waiting for nodes to join...</p>
 
-      <div className="flex-1 flex items-center justify-center">
-        <p className="text-zinc-500">Network Visualization Coming Soon...</p>
+          <p className="text-sm text-zinc-600 mt-2">
+            Open another browser tab to simulate another device.
+          </p>
+        </div>
       </div>
-    </div>
+    </Panel>
   );
 }
 
