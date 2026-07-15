@@ -1,21 +1,26 @@
 import { useMemo } from "react";
-import type { Edge, Node } from "@xyflow/react";
+import type { Edge } from "@xyflow/react";
+import type { MeshFlowNode } from "../types/network.types";
 import { useNetworkStore } from "../../../store/networkStore";
 
 export function useMesh() {
   const { nodes } = useNetworkStore();
 
-  const graphNodes = useMemo<Node[]>(() => {
+  const graphNodes = useMemo<MeshFlowNode[]>(() => {
     return nodes.map((node, index) => ({
       id: node.nodeId,
-
+      type: "mesh",
       position: {
-        x: 150 + index * 220,
-        y: 200,
+        x: 180 + index * 220,
+        y: 220,
       },
 
       data: {
-        label: node.username,
+        label: `Node-${index + 1}`,
+        status: "online",
+        battery: 100,
+        storage: 18,
+        signal: 5,
       },
     }));
   }, [nodes]);
@@ -28,6 +33,11 @@ export function useMesh() {
         id: `${i}`,
         source: graphNodes[i].id,
         target: graphNodes[i + 1].id,
+        animated: true,
+        style: {
+          stroke: "#3b82f6",
+          strokeWidth: 3,
+        },
       });
     }
 

@@ -3,26 +3,32 @@ import {
   Controls,
   MiniMap,
   ReactFlow,
-  type Node,
   type Edge,
+  type NodeTypes,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
+import type { MeshFlowNode } from "../types/network.types";
+import MeshNode from "./MeshNode";
 
 interface Props {
-  nodes: Node[];
+  nodes: MeshFlowNode[];
   edges: Edge[];
 }
 
+const nodeTypes: NodeTypes = {
+  mesh: MeshNode,
+};
+
 function MeshGraph({ nodes, edges }: Props) {
   return (
-    <div className="h-full w-full rounded-xl overflow-hidden">
-      <ReactFlow nodes={nodes} edges={edges} fitView>
-        <MiniMap />
+    <div className="w-full h-full rounded-xl overflow-hidden">
+      <ReactFlow fitView nodes={nodes} edges={edges} nodeTypes={nodeTypes}>
+        <Background gap={24} size={1} color="#2a2a2a" />
 
         <Controls />
 
-        <Background />
+        <MiniMap />
       </ReactFlow>
     </div>
   );
