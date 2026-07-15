@@ -1,17 +1,13 @@
 import Panel from "../ui/Panel";
+import MeshGraph from "../../features/network/components/MeshGraph";
+import { useMesh } from "../../features/network/hooks/useMesh";
 
 function NetworkPanel() {
+  const { graphNodes, graphEdges } = useMesh();
+
   return (
     <Panel title="Mesh Network" className="h-full">
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-zinc-500 text-lg">Waiting for nodes to join...</p>
-
-          <p className="text-sm text-zinc-600 mt-2">
-            Open another browser tab to simulate another device.
-          </p>
-        </div>
-      </div>
+      <MeshGraph nodes={graphNodes} edges={graphEdges} />
     </Panel>
   );
 }
