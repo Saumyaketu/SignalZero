@@ -7,4 +7,5 @@ export const EVENTS = {
   PACKET_FORWARD: "packet:forward",
   PACKET_DELIVER: "packet:deliver",
   PACKET_ACK: "packet:ack",
+  PACKET_ERROR: "packet:error"
 };

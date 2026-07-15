@@ -12,6 +12,18 @@ class PacketProcessor {
 
     return packet;
   }
+
+  moveToNextHop(packet) {
+    if (packet.currentHop < packet.route.length - 1) {
+      packet.currentHop++;
+    }
+
+    return packet;
+  }
+
+  isDelivered(packet) {
+    return packet.currentHop >= packet.route.length - 1;
+  }
 }
 
 export default new PacketProcessor();

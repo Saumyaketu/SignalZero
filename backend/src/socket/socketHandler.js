@@ -1,5 +1,6 @@
 import networkService from "../services/network.service.js";
 import messageService from "../services/message.service.js";
+import packetProcessor from "../services/packetProcessor.service.js";
 import { EVENTS } from "./events.js";
 
 export default function registerSocketHandlers(io) {
@@ -42,7 +43,16 @@ export default function registerSocketHandlers(io) {
         });
       }
 
-      io.emit(EVENTS.PACKET_FORWARD, packet);
+      let currentPacket = packet;
+
+      while (!packetProcessor.isDelivered(currentPacket)) {
+        io.emit(EVENTS.PACKET_FORWARD, currentPacket);
+        currentPacket = packetProcessor.moveToNextHop(currentPacket);
+      }
+      
+      currentPacket.status = "DELIVERED";
+
+      io.emit(EVENTS.PACKET_DELIVER, currentPacket);
     });
   });
 }
