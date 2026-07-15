@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import networkRoutes from "./routes/network.routes.js";
+import messageRoutes from "./routes/message.routes.js";
 
 dotenv.config();
 
@@ -21,5 +22,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/network", networkRoutes);
+app.use("/api/message", messageRoutes);
 
 export default app;
