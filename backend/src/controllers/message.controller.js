@@ -1,4 +1,5 @@
 import messageService from "../services/message.service.js";
+import packetProcessor from "../services/packetProcessor.service.js";
 
 export const sendMessage = (req, res) => {
   const { source, destination, payload } = req.body;
@@ -20,6 +21,22 @@ export const sendMessage = (req, res) => {
   }
 
   res.status(201).json({
+    success: true,
+    packet,
+  });
+};
+
+export const processPacket = (req, res) => {
+  const packet = packetProcessor.processNextPacket();
+
+  if (!packet) {
+    return res.json({
+      success: true,
+      message: "Queue Empty",
+    });
+  }
+
+  res.json({
     success: true,
     packet,
   });

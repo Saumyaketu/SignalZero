@@ -1,22 +1,31 @@
 class PacketService {
   constructor() {
-    this.packets = [];
+    this.queue = [];
+    this.processing = false;
   }
 
-  create(packet) {
-    this.packets.push(packet);
-
-    return packet;
+  enqueue(packet) {
+    this.queue.push(packet);
   }
 
-  getAll() {
-    return this.packets;
+  dequeue() {
+    if (this.queue.length === 0) {
+      return null;
+    }
+
+    return this.queue.shift();
   }
 
-  remove(packetId) {
-    this.packets = this.packets.filter(
-      (packet) => packet.packetId !== packetId,
-    );
+  peek() {
+    return this.queue[0];
+  }
+
+  getQueue() {
+    return this.queue;
+  }
+
+  size() {
+    return this.queue.length;
   }
 }
 

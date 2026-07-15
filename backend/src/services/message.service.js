@@ -19,7 +19,7 @@ class MessageService {
       route,
     });
 
-    packetService.create(packet);
+    packetService.enqueue(packet);
 
     return packet;
   }
