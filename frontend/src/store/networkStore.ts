@@ -4,6 +4,8 @@ interface NetworkNode {
   nodeId: string;
   socketId: string;
   username: string;
+  status: "online" | "offline";
+  neighbors: string[];
 }
 
 interface NetworkStore {

@@ -5,7 +5,7 @@ class NetworkService {
     this.nodes = new Map();
   }
 
-  createNode(socketId, username = "Anonymous") {
+  createNode(socketId, username = `Node-${this.nodes.size + 1}`) {
     const node = {
       nodeId: uuid(),
       socketId,

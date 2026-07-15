@@ -8,7 +8,7 @@ export function useMesh() {
   const { nodes } = useNetworkStore();
 
   const graphNodes = useMemo<MeshFlowNode[]>(() => {
-    return nodes.map((node, index) => ({
+    return nodes.map((node) => ({
       id: node.nodeId,
       type: "mesh",
       position: {
@@ -17,8 +17,8 @@ export function useMesh() {
       },
 
       data: {
-        label: `Node-${index + 1}`,
-        status: "online",
+        label: node.username,
+        status: node.status,
         battery: 100,
         storage: 18,
         signal: 5,
@@ -29,17 +29,23 @@ export function useMesh() {
   const graphEdges = useMemo<Edge[]>(() => {
     const edges: Edge[] = [];
 
-    for (let i = 0; i < graphNodes.length - 1; i++) {
-      edges.push({
-        id: `${i}`,
-        type: "mesh",
-        source: graphNodes[i].id,
-        target: graphNodes[i + 1].id,
+    nodes.forEach((node) => {
+      node.neighbors.forEach((neighborId) => {
+        edges.push({
+          id: `${node.nodeId}-${neighborId}`,
+          source: node.nodeId,
+          target: neighborId,
+          animated: true,
+          style: {
+            stroke: "#3b82f6",
+            strokeWidth: 3,
+          },
+        });
       });
-    }
+    });
 
     return edges;
-  }, [graphNodes]);
+  }, [nodes]);
 
   const layoutedNodes = layoutGraph(graphNodes, graphEdges);
 
