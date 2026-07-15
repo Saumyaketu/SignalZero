@@ -10,6 +10,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import type { MeshFlowNode } from "../types/network.types";
 import MeshNode from "./MeshNode";
+import MeshEdge from "./MeshEdge";
 
 interface Props {
   nodes: MeshFlowNode[];
@@ -19,11 +20,20 @@ interface Props {
 const nodeTypes: NodeTypes = {
   mesh: MeshNode,
 };
+const edgeTypes = {
+  mesh: MeshEdge,
+};
 
 function MeshGraph({ nodes, edges }: Props) {
   return (
     <div className="w-full h-full rounded-xl overflow-hidden">
-      <ReactFlow fitView nodes={nodes} edges={edges} nodeTypes={nodeTypes}>
+      <ReactFlow
+        fitView
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+      >
         <Background gap={30} size={1} color="#3f3f46" />
 
         <Controls showInteractive={false} />

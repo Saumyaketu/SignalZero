@@ -32,13 +32,9 @@ export function useMesh() {
     for (let i = 0; i < graphNodes.length - 1; i++) {
       edges.push({
         id: `${i}`,
+        type: "mesh",
         source: graphNodes[i].id,
         target: graphNodes[i + 1].id,
-        animated: true,
-        style: {
-          stroke: "#3b82f6",
-          strokeWidth: 3,
-        },
       });
     }
 
