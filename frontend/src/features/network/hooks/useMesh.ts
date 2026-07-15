@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import type { Edge } from "@xyflow/react";
 import type { MeshFlowNode } from "../types/network.types";
 import { useNetworkStore } from "../../../store/networkStore";
+import { layoutGraph } from "../utils/layoutGraph";
 
 export function useMesh() {
   const { nodes } = useNetworkStore();
@@ -11,8 +12,8 @@ export function useMesh() {
       id: node.nodeId,
       type: "mesh",
       position: {
-        x: 180 + index * 220,
-        y: 220,
+        x: 0,
+        y: 0,
       },
 
       data: {
@@ -44,8 +45,10 @@ export function useMesh() {
     return edges;
   }, [graphNodes]);
 
+  const layoutedNodes = layoutGraph(graphNodes, graphEdges);
+
   return {
-    graphNodes,
+    graphNodes: layoutedNodes,
     graphEdges,
   };
 }

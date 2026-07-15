@@ -24,11 +24,11 @@ function MeshGraph({ nodes, edges }: Props) {
   return (
     <div className="w-full h-full rounded-xl overflow-hidden">
       <ReactFlow fitView nodes={nodes} edges={edges} nodeTypes={nodeTypes}>
-        <Background gap={24} size={1} color="#2a2a2a" />
+        <Background gap={30} size={1} color="#3f3f46" />
 
-        <Controls />
+        <Controls showInteractive={false} />
 
-        <MiniMap />
+        <MiniMap pannable zoomable nodeStrokeWidth={3} />
       </ReactFlow>
     </div>
   );
