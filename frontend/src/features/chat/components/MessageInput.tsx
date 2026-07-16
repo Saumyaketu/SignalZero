@@ -8,8 +8,6 @@ interface Props {
 
 function MessageInput({
   onSend,
-  placeholder = "Type message...",
-  buttonLabel = "Send",
 }: Props) {
   const [text, setText] = useState("");
 
