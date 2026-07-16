@@ -8,12 +8,12 @@ import { useNetworkStore } from "../../../store/networkStore";
 
 function ChatPanel() {
   const { messages } = useChatStore();
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    if (!chatRef.current) return;
+
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [messages]);
 
   const { currentNode, selectedNode } = useNetworkStore();
@@ -37,9 +37,9 @@ function ChatPanel() {
   }
 
   return (
-    <Panel title="Chat" className="h-full">
-      <div className="flex h-full flex-col">
-        <div className="mb-4 flex justify-between rounded-lg bg-zinc-900 p-3">
+    <Panel title="Chat" className="h-full min-h-0 overflow-hidden">
+      <div className="flex h-full min-h-0 flex-col overflow-hidden">
+        <div className="mb-4 flex shrink-0 justify-between rounded-lg bg-zinc-900 p-3">
           <div>
             <p className="text-xs text-zinc-500">YOU</p>
             <p className="text-yellow-400 font-semibold">
@@ -56,16 +56,16 @@ function ChatPanel() {
         </div>
 
         <div
+          ref={chatRef}
           id="chat-scroll"
-          className="flex-1 overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950 p-3 space-y-3 min-h-0"
+          className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-3 space-y-3"
         >
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
-          <div ref={bottomRef} />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 shrink-0">
           <MessageInput onSend={handleSend} />
         </div>
       </div>

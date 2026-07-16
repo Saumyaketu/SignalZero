@@ -18,29 +18,28 @@ const menuItems = [
 
 function Sidebar() {
   return (
-    <aside className="w-64 bg-zinc-900 rounded-2xl border border-zinc-800 flex flex-col">
+    <div className="flex h-full flex-col bg-zinc-950">
+      <aside className="flex min-h-0 flex-1 flex-col border-r border-zinc-800">
+        <nav className="flex-1 overflow-y-auto p-4">
+          <p className="text-xs uppercase tracking-widest text-zinc-500 mb-4">
+            Navigation
+          </p>
 
-      <nav className="flex-1 p-4">
-        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-4">
-          Navigation
-        </p>
+          <div className="space-y-2">
+            {menuItems.map(({ icon: Icon, label }) => (
+              <button
+                key={label}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-300 hover:bg-blue-600 hover:text-white transition-all"
+              >
+                <Icon size={20} />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+      </aside>
 
-        <div className="space-y-2">
-          {menuItems.map(({ icon: Icon, label }) => (
-            <button
-              key={label}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-300 hover:bg-blue-600 hover:text-white transition-all"
-            >
-              <Icon size={20} />
-              <span>{label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-
-      {/* Bottom */}
-
-      <div className="border-t border-zinc-800 p-5">
+      <div className="shrink-0 border-t border-zinc-800 p-5">
         <div className="flex items-center gap-2">
           <div className="h-3 w-3 rounded-full bg-green-500 animate-pulse" />
 
@@ -49,7 +48,7 @@ function Sidebar() {
 
         <p className="text-xs text-zinc-500 mt-2">Mesh Network Active</p>
       </div>
-    </aside>
+    </div>
   );
 }
 

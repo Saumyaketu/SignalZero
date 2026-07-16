@@ -6,24 +6,26 @@ import ChatPanel from "../features/chat/components/ChatPanel";
 
 function DashboardLayout() {
   return (
-    <div className="h-screen bg-zinc-950 text-white flex flex-col">
+    <div className="h-screen overflow-hidden bg-zinc-950 text-white flex flex-col">
       <Topbar />
 
-      <main className="flex-1 p-6 overflow-hidden">
-        <div className="grid h-full grid-cols-[260px_1fr] gap-6">
+      <div className="flex flex-1 overflow-hidden">
+        <div className="w-72 shrink-0 h-full">
           <Sidebar />
-
-          <div className="grid grid-rows-[1fr_180px] gap-6">
-            <NetworkPanel />
-
-            <div className="grid grid-cols-[300px_1fr] gap-6">
-              <FooterStats />
-
-              <ChatPanel />
-            </div>
-          </div>
         </div>
-      </main>
+
+        <main className="grid min-h-0 flex-1 grid-rows-[55%_45%] gap-6 overflow-hidden p-6">
+          <div>
+            <NetworkPanel />
+          </div>
+
+          <div className="flex-1 grid min-h-0 grid-cols-[300px_1fr] gap-6 overflow-hidden">
+            <FooterStats />
+
+            <ChatPanel />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
