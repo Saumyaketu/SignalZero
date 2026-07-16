@@ -2,17 +2,21 @@ import Panel from "../../../components/ui/Panel";
 import { useChatStore } from "../store/chatStore";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
+import { socket } from "../../../lib/socket";
+import { useNetworkStore } from "../../../store/networkStore";
 
 function ChatPanel() {
-  const { messages, addMessage } = useChatStore();
+  const { messages } = useChatStore();
+  const { currentNode, nodes } = useNetworkStore();
 
   function handleSend(content: string) {
-    addMessage({
-      id: crypto.randomUUID(),
-      sender: "Node-1",
-      receiver: "Node-2",
-      content,
-      timestamp: Date.now(),
+    if (!currentNode) return;
+    if (nodes.length < 2) return;
+
+    socket.emit("packet:send", {
+      source: currentNode.nodeId,
+      destination: nodes.find((n) => n.nodeId !== currentNode.nodeId)?.nodeId,
+      payload: content,
     });
   }
 

@@ -35,6 +35,17 @@ export default function registerSocketHandlers(io) {
           });
           return;
         }
+
+        let currentPacket = packet;
+
+        while (!packetProcessor.isDelivered(currentPacket)) {
+          io.emit(EVENTS.PACKET_FORWARD, currentPacket);
+          currentPacket = packetProcessor.moveToNextHop(currentPacket);
+        }
+
+        currentPacket.status = "DELIVERED";
+
+        io.emit(EVENTS.PACKET_DELIVER, currentPacket);
       } catch (error) {
         console.error(error);
 
@@ -42,17 +53,6 @@ export default function registerSocketHandlers(io) {
           message: "Internal Server Error",
         });
       }
-
-      let currentPacket = packet;
-
-      while (!packetProcessor.isDelivered(currentPacket)) {
-        io.emit(EVENTS.PACKET_FORWARD, currentPacket);
-        currentPacket = packetProcessor.moveToNextHop(currentPacket);
-      }
-      
-      currentPacket.status = "DELIVERED";
-
-      io.emit(EVENTS.PACKET_DELIVER, currentPacket);
     });
   });
 }

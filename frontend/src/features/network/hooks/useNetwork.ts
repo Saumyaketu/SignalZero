@@ -3,7 +3,7 @@ import { socket } from "../../../lib/socket";
 import { useNetworkStore } from "../../../store/networkStore";
 
 export function useNetwork() {
-  const { setConnected, setNodes } = useNetworkStore();
+  const { setCurrentNode, setConnected, setNodes } = useNetworkStore();
 
   useEffect(() => {
     socket.connect();
@@ -16,6 +16,10 @@ export function useNetwork() {
       setConnected(false);
     });
 
+    socket.on("node:registered", (node) => {
+      setCurrentNode(node);
+    });
+
     socket.on("network:update", (nodes) => {
       setNodes(nodes);
     });
@@ -23,6 +27,7 @@ export function useNetwork() {
     return () => {
       socket.off("connect");
       socket.off("disconnect");
+      socket.off("node:registered");
       socket.off("network:update");
     };
   }, []);

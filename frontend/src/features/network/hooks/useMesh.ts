@@ -28,11 +28,17 @@ export function useMesh() {
 
   const graphEdges = useMemo<Edge[]>(() => {
     const edges: Edge[] = [];
+    const visited = new Set<string>();
 
     nodes.forEach((node) => {
       node.neighbors.forEach((neighborId) => {
+        const key = [node.nodeId, neighborId].sort().join("-");
+
+        if (visited.has(key)) return;
+        visited.add(key);
+
         edges.push({
-          id: `${node.nodeId}-${neighborId}`,
+          id: key,
           source: node.nodeId,
           target: neighborId,
           animated: true,

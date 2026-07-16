@@ -4,4 +4,5 @@ export interface ChatMessage {
   receiver: string;
   content: string;
   timestamp: number;
+  senderName?: string;
 }
