@@ -1,6 +1,7 @@
 import networkService from "../services/network.service.js";
 import messageService from "../services/message.service.js";
 import packetProcessor from "../services/packetProcessor.service.js";
+import analyticsService from "../services/analytics.service.js";
 import { EVENTS } from "./events.js";
 import { delay } from "../utils/delay.js";
 
@@ -36,6 +37,10 @@ export default function registerSocketHandlers(io) {
           });
         }
 
+        analyticsService.packetSent();
+
+        io.emit(EVENTS.ANALYTICS_UPDATE, analyticsService.getStats());
+
         let currentPacket = packet;
 
         io.emit(EVENTS.PACKET_FORWARD, currentPacket);
@@ -51,6 +56,8 @@ export default function registerSocketHandlers(io) {
         }
 
         currentPacket.status = "DELIVERED";
+
+        io.emit(EVENTS.ANALYTICS_UPDATE, analyticsService.getStats());
 
         const senderSocket = networkService.findSocketByNodeId(
           currentPacket.source,
