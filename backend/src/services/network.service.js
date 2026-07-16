@@ -62,6 +62,14 @@ class NetworkService {
 
     node.lastSeen = Date.now();
   }
+
+  getNodeById(nodeId) {
+    return [...this.nodes.values()].find((node) => node.nodeId === nodeId);
+  }
+
+  findSocketByNodeId(nodeId) {
+    return this.getNodeById(nodeId)?.socketId ?? null;
+  }
 }
 
 export default new NetworkService();

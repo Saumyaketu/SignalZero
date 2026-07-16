@@ -46,7 +46,21 @@ export default function registerSocketHandlers(io) {
 
         currentPacket.status = "DELIVERED";
 
-        io.emit(EVENTS.PACKET_DELIVER, currentPacket);
+        const senderSocket = networkService.findSocketByNodeId(
+          currentPacket.source,
+        );
+
+        const receiverSocket = networkService.findSocketByNodeId(
+          currentPacket.destination,
+        );
+
+        if (senderSocket) {
+          io.to(senderSocket).emit(EVENTS.PACKET_DELIVER, currentPacket);
+        }
+
+        if (receiverSocket && receiverSocket !== senderSocket) {
+          io.to(receiverSocket).emit(EVENTS.PACKET_DELIVER, currentPacket);
+        }
       } catch (error) {
         console.error(error);
 
