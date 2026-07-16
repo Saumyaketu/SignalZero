@@ -15,6 +15,7 @@ export default class Packet {
     this.payload = payload;
     this.route = route;
     this.currentHop = 0;
+    this.totalHops = route.length - 1;
     this.priority = priority;
     this.ttl = ttl;
     this.status = "QUEUED";

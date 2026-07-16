@@ -2,6 +2,7 @@ import networkService from "../services/network.service.js";
 import messageService from "../services/message.service.js";
 import packetProcessor from "../services/packetProcessor.service.js";
 import { EVENTS } from "./events.js";
+import { delay } from "../utils/delay.js";
 
 export default function registerSocketHandlers(io) {
   io.on(EVENTS.CONNECTION, (socket) => {
@@ -19,7 +20,7 @@ export default function registerSocketHandlers(io) {
       io.emit(EVENTS.NETWORK_UPDATE, networkService.getAllNodes());
     });
 
-    socket.on(EVENTS.PACKET_SEND, (data) => {
+    socket.on(EVENTS.PACKET_SEND, async (data) => {
       try {
         const { source, destination, payload } = data;
         if (!source || !destination || !payload) {
@@ -30,16 +31,16 @@ export default function registerSocketHandlers(io) {
         const packet = messageService.sendMessage(source, destination, payload);
 
         if (!packet) {
-          socket.emit(EVENTS.PACKET_ERROR, {
+          return socket.emit(EVENTS.PACKET_ERROR, {
             message: "Route not found",
           });
-          return;
         }
 
         let currentPacket = packet;
 
         while (!packetProcessor.isDelivered(currentPacket)) {
           io.emit(EVENTS.PACKET_FORWARD, currentPacket);
+          await delay(500);
           currentPacket = packetProcessor.moveToNextHop(currentPacket);
         }
 

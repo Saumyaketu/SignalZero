@@ -14,7 +14,7 @@ function DashboardLayout() {
           <Sidebar />
         </div>
 
-        <main className="grid min-h-0 flex-1 grid-rows-[55%_45%] gap-6 overflow-hidden p-6">
+        <main className="grid min-h-0 flex-1 grid-rows-[11fr_9fr] gap-6 overflow-hidden p-6">
           <div>
             <NetworkPanel />
           </div>
@@ -22,7 +22,9 @@ function DashboardLayout() {
           <div className="flex-1 grid min-h-0 grid-cols-[300px_1fr] gap-6 overflow-hidden">
             <FooterStats />
 
-            <ChatPanel />
+            <div className="min-h-0 h-full">
+              <ChatPanel />
+            </div>
           </div>
         </main>
       </div>

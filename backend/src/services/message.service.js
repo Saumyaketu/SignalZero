@@ -17,6 +17,9 @@ class MessageService {
       destination,
       payload,
       route,
+      currentHop: 0,
+      totalHops: route.length - 1,
+      status: "routing",
     });
 
     packetService.enqueue(packet);
