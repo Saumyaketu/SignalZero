@@ -11,6 +11,9 @@ import "@xyflow/react/dist/style.css";
 import type { MeshFlowNode } from "../types/network.types";
 import MeshNode from "./MeshNode";
 import MeshEdge from "./MeshEdge";
+import PacketOverlay from "../../packets/components/PacketOverlay";
+import { useGraphStore } from "../store/graphStore";
+import { useEffect } from "react";
 
 interface Props {
   nodes: MeshFlowNode[];
@@ -25,8 +28,16 @@ const edgeTypes = {
 };
 
 function MeshGraph({ nodes, edges }: Props) {
+  const { setPosition } = useGraphStore();
+
+  useEffect(() => {
+    nodes.forEach((node) => {
+      setPosition(node.id, node.position.x, node.position.y);
+    });
+  }, [nodes, setPosition]);
+
   return (
-    <div className="w-full h-full rounded-xl overflow-hidden">
+    <div className="relative w-full h-full rounded-xl overflow-hidden">
       <ReactFlow
         fitView
         nodes={nodes}
@@ -40,6 +51,8 @@ function MeshGraph({ nodes, edges }: Props) {
 
         <MiniMap pannable zoomable nodeStrokeWidth={3} />
       </ReactFlow>
+
+      <PacketOverlay />
     </div>
   );
 }
