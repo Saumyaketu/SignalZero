@@ -7,16 +7,23 @@ import {
   Settings,
 } from "lucide-react";
 
+type SidebarView = "chat" | "emergency";
+
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard" },
   { icon: Network, label: "Mesh Network" },
-  { icon: MessageSquare, label: "Chat" },
+  { icon: MessageSquare, label: "Chat", view: "chat" as const },
   { icon: Bell, label: "Bulletin" },
-  { icon: Siren, label: "Emergency" },
+  { icon: Siren, label: "Emergency", view: "emergency" as const },
   { icon: Settings, label: "Settings" },
 ];
 
-function Sidebar() {
+interface SidebarProps {
+  activeView: SidebarView;
+  onSelectView: (view: SidebarView) => void;
+}
+
+function Sidebar({ activeView, onSelectView }: SidebarProps) {
   return (
     <div className="flex h-full flex-col bg-zinc-950">
       <aside className="flex min-h-0 flex-1 flex-col border-r border-zinc-800">
@@ -26,15 +33,24 @@ function Sidebar() {
           </p>
 
           <div className="space-y-2">
-            {menuItems.map(({ icon: Icon, label }) => (
-              <button
-                key={label}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-300 hover:bg-blue-600 hover:text-white transition-all"
-              >
-                <Icon size={20} />
-                <span>{label}</span>
-              </button>
-            ))}
+            {menuItems.map(({ icon: Icon, label, view }) => {
+              const isActive = view === activeView;
+
+              return (
+                <button
+                  key={label}
+                  onClick={() => view && onSelectView(view)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-300 transition-all ${
+                    isActive
+                      ? "bg-blue-600 text-white"
+                      : "hover:bg-blue-600 hover:text-white"
+                  }`}
+                >
+                  <Icon size={20} />
+                  <span>{label}</span>
+                </button>
+              );
+            })}
           </div>
         </nav>
       </aside>

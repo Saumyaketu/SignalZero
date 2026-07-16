@@ -2,9 +2,15 @@ import { useState } from "react";
 
 interface Props {
   onSend: (message: string) => void;
+  placeholder?: string;
+  buttonLabel?: string;
 }
 
-function MessageInput({ onSend }: Props) {
+function MessageInput({
+  onSend,
+  placeholder = "Type message...",
+  buttonLabel = "Send",
+}: Props) {
   const [text, setText] = useState("");
 
   function send() {
