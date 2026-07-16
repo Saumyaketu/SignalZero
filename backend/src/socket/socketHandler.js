@@ -38,10 +38,16 @@ export default function registerSocketHandlers(io) {
 
         let currentPacket = packet;
 
+        io.emit(EVENTS.PACKET_FORWARD, currentPacket);
+
         while (!packetProcessor.isDelivered(currentPacket)) {
-          io.emit(EVENTS.PACKET_FORWARD, currentPacket);
           await delay(500);
+
           currentPacket = packetProcessor.moveToNextHop(currentPacket);
+
+          if (!packetProcessor.isDelivered(currentPacket)) {
+            io.emit(EVENTS.PACKET_UPDATE, currentPacket);
+          }
         }
 
         currentPacket.status = "DELIVERED";

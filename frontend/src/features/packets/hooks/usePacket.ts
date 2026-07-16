@@ -7,6 +7,8 @@ export function usePacket() {
 
   useEffect(() => {
     socket.on("packet:forward", (packet) => {
+      removePacket(packet.packetId);
+
       addPacket({
         packetId: packet.packetId,
         route: packet.route,
