@@ -6,6 +6,7 @@ export const EVENTS = {
   NETWORK_UPDATE: "network:update",
 
   PACKET_SEND: "packet:send",
+  PACKET_QUEUED: "packet:queued",
 
   PACKET_FORWARD: "packet:forward",
   PACKET_UPDATE: "packet:update",

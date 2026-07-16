@@ -70,6 +70,11 @@ class NetworkService {
   findSocketByNodeId(nodeId) {
     return this.getNodeById(nodeId)?.socketId ?? null;
   }
+
+  isNodeOnline(nodeId) {
+    const node = this.getNodeById(nodeId);
+    return node?.status === "online";
+  }
 }
 
 export default new NetworkService();
