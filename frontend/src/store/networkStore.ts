@@ -12,19 +12,19 @@ interface NetworkStore {
   connected: boolean;
   nodes: NetworkNode[];
   currentNode: NetworkNode | null;
-  setCurrentNode: (node: NetworkNode) => void;
+  selectedNode: NetworkNode | null;
   setConnected: (value: boolean) => void;
   setNodes: (nodes: NetworkNode[]) => void;
+  setCurrentNode: (node: NetworkNode) => void;
+  setSelectedNode: (node: NetworkNode | null) => void;
 }
 
 export const useNetworkStore = create<NetworkStore>((set) => ({
   connected: false,
   nodes: [],
   currentNode: null,
-  setCurrentNode: (node) =>
-    set({
-      currentNode: node,
-    }),
+  selectedNode: null,
+
   setConnected: (value) =>
     set({
       connected: value,
@@ -33,5 +33,15 @@ export const useNetworkStore = create<NetworkStore>((set) => ({
   setNodes: (nodes) =>
     set({
       nodes,
+    }),
+
+  setCurrentNode: (node) =>
+    set({
+      currentNode: node,
+    }),
+
+  setSelectedNode: (node) =>
+    set({
+      selectedNode: node,
     }),
 }));

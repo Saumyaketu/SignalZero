@@ -1,30 +1,64 @@
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import { Wifi } from "lucide-react";
 import type { MeshFlowNode } from "../types/network.types";
+import { useNetworkStore } from "../../../store/networkStore";
 
 function MeshNode({ data }: NodeProps<MeshFlowNode>) {
-  return (
-    <div className="relative">
-      <div className="absolute inset-0 rounded-full bg-blue-500/30 animate-ping" />
+  const { nodes, selectedNode, setSelectedNode, currentNode } =
+    useNetworkStore();
 
-      <div className="relative w-20 h-20 rounded-full bg-zinc-900 border-4 border-blue-500 flex flex-col items-center justify-center shadow-lg">
+  const current = nodes.find((node) => node.username === data.label);
+  const isSelected = selectedNode?.nodeId === current?.nodeId;
+  const isCurrent = currentNode?.nodeId === current?.nodeId;
+
+  return (
+    <div
+      className="relative cursor-pointer"
+      onClick={() => current && setSelectedNode(current)}
+    >
+      <div
+        className={`absolute inset-0 rounded-full ${
+          isCurrent || isSelected ? "animate-ping" : ""
+        } ${isSelected ? "bg-green-500/30" : "bg-blue-500/20"}`}
+      />
+
+      <div
+        className={`relative w-20 h-20 rounded-full border-4 flex flex-col items-center justify-center shadow-lg transition-all duration-300 ${
+          isCurrent
+            ? "border-yellow-400 bg-zinc-900"
+            : isSelected
+              ? "border-green-400 bg-zinc-900"
+              : "border-blue-500 bg-zinc-900"
+        }`}
+      >
         <Wifi className="text-blue-400" size={24} />
       </div>
 
-      <p className="text-center mt-3 text-white font-semibold">
-        {data?.label ?? "Node"}
-      </p>
+      <p className="mt-3 text-center font-semibold text-white">{data.label}</p>
 
       <p
         className={`text-center text-xs ${
           data.status === "offline" ? "text-red-400" : "text-green-400"
         }`}
       >
-        {data.status ?? "Online"}
+        {data.status}
       </p>
-      <Handle type="target" position={Position.Left} />
 
-      <Handle type="source" position={Position.Right} />
+      {isCurrent && (
+        <p className="text-center text-[10px] text-yellow-400 mt-1">YOU</p>
+      )}
+
+      <Handle
+        type="target"
+        position={Position.Left}
+        className="w-0! h-0! border-0! bg-transparent!"
+      />
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="w-0! h-0! border-0! bg-transparent!"
+      />
     </div>
   );
 }

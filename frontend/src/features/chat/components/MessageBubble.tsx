@@ -6,20 +6,21 @@ interface Props {
 }
 
 function MessageBubble({ message }: Props) {
-  const { currentNode, nodes } = useNetworkStore();
+  const { currentNode } = useNetworkStore();
 
-  const sender =
-    message.senderName ??
-    (currentNode?.nodeId === message.sender
-      ? currentNode.username
-      : nodes.find((node) => node.nodeId === message.sender)?.username) ??
-    message.sender;
+  const isMine = currentNode?.nodeId === message.sender;
 
   return (
-    <div className="bg-zinc-800 rounded-xl p-3">
-      <p className="text-blue-400 text-sm font-medium">{sender}</p>
+    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+      <div
+        className={`max-w-[75%] rounded-xl px-4 py-3 ${
+          isMine ? "bg-blue-600" : "bg-zinc-800"
+        }`}
+      >
+        <p className="text-xs text-zinc-300 mb-1">{message.senderName}</p>
 
-      <p className="mt-1">{message.content}</p>
+        <p className="text-white wrap-break-word">{message.content}</p>
+      </div>
     </div>
   );
 }
