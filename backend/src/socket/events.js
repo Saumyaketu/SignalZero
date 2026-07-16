@@ -16,4 +16,7 @@ export const EVENTS = {
   PACKET_ERROR: "packet:error",
 
   ANALYTICS_UPDATE: "analytics:update",
+
+  EMERGENCY_BROADCAST: "emergency:broadcast",
+  EMERGENCY_RECEIVED: "emergency:received",
 };

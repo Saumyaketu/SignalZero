@@ -82,5 +82,14 @@ export default function registerSocketHandlers(io) {
         });
       }
     });
+
+    socket.on(EVENTS.EMERGENCY_BROADCAST, (data) => {
+      io.emit(EVENTS.EMERGENCY_RECEIVED, {
+        id: crypto.randomUUID(),
+        sender: data.sender,
+        message: data.message,
+        timestamp: Date.now(),
+      });
+    });
   });
 }
